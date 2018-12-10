@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.10&key=146f38cff16fee22715f107edad81eac"></script>
+	<script type="text/javascript" src="gps.js"></script>
+    <style>
+        #container {
+            width: 1080px;
+            height: 760px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+
+        var map = new AMap.Map('container', {
+            zoom: 17,//级别
+            center: [plotdata['centerLongi'], plotdata['centerLati']],//中心点坐标
+            viewMode: '3D'//使用3D视图
+        });
+
+        var path = plotdata['makeGpsRoute'];
+
+        var polygon = new AMap.Polygon({
+            path: path,
+            fillColor: '#fff', // 多边形填充颜色
+            fillOpacity: 0,
+            borderWeight: 5, // 线条宽度，默认为 1
+            strokeColor: '#ff9900', // 线条颜色
+        });
+
+        map.add(polygon);
+
+    </script>
+</body>
+
+</html>
