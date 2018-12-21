@@ -16,38 +16,40 @@
         fileoptions_jsonOBJ: []
       }
     },
-    props: ['startTime', 'endTime', 'slectedfiles', 'str_json'],
+    props: ['CanvasType', 'slectedfiles', 'str_json'],
     methods: {
       plot_d00_a01_gps() {
-        $('.options').removeClass('active')
-        $(this).addClass('active')
+        // this.CanvasType = 'gpsroute'
+        // $('.options').removeClass('active')
+        // $(this).addClass('active')
         this.fileoptions_jsonOBJ = this.slectedfiles
         var that = this
 
-        if ($('#selecte_file_message').dropdown('get value') != '') {
-          that.submit()
-        }
         $('#plotBody').html(`
-                                                                                                                                        <div style="height: 450px; ">
-                                                                                                                                          <!-- gps -->
-                                                                                                                                          <div id="div_gps" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                                                                          <!-- speed time-ser-->
-                                                                                                                                          <div id="div_speedSeries" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                                                                        </div>
+                                                                                                                                                          <div style="height: 450px; ">
+                                                                                                                                                            <!-- gps -->
+                                                                                                                                                            <div id="div_gps" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                                                                                            <!-- speed time-ser-->
+                                                                                                                                                            <div id="div_speedSeries" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                                                                                          </div>
 
-                                                                                                                                        <div style="height: 450px; ">
-                                                                                                                                          <!-- gangi distr-->
-                                                                                                                                          <div id="div_gangiDistr" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                                                                          <!-- nmot/rl scatter-->
-                                                                                                                                          <div id="div_nmotrlScatter" style="width: 50%; height: 1  0%; float: left;"></div>
-                                                                                                                                        </div>`)
+                                                                                                                                                          <div style="height: 450px; ">
+                                                                                                                                                            <!-- gangi distr-->
+                                                                                                                                                            <div id="div_gangiDistr" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                                                                                            <!-- nmot/rl scatter-->
+                                                                                                                                                            <div id="div_nmotrlScatter" style="width: 50%; height: 1  0%; float: left;"></div>
+                                                                                                                                                          </div>`)
         //  that.fileoptions = {{fileoption.requestedFiles|tojson}};
         // that.fileoptions_jsonOBJ = JSON.parse(fileoptions)
 
         console.log(that.fileoptions_jsonOBJ)
 
         $('#selecte_file_message').dropdown({
-          values: that.fileoptions_jsonOBJ['value']
+          values: that.fileoptions_jsonOBJ['value'],
+          onChange: function(value, text, $selectedItem) {
+            
+            that.submit()
+          }
         })
 
         $('#selecte_file_message').dropdown(
@@ -62,6 +64,10 @@
             selected: that.fileoptions_jsonOBJ['selected']
           })
         )
+        if ($('#selecte_file_message').dropdown('get value') != '') {
+          console.log(12)
+          that.submit()
+        }
       },
       // submit() {
       //   this.$emit('submit')

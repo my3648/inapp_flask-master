@@ -14,28 +14,29 @@
         fileoptions_jsonOBJ: []
       }
     },
-    props: ['startTime', 'endTime', 'slectedfiles', 'str_json'],
+    props: ['startTime', 'endTime', 'slectedfiles', 'str_json', 'CanvasType'],
     methods: {
       plot_d00_a02_fho() {
+        // this.CanvasType = 'fho'
         this.fileoptions_jsonOBJ = this.slectedfiles
         var that = this
         if ($('#selecte_file_message').dropdown('get value') != '') {
           that.submit()
         }
         $('#plotBody').html(`
-                                                                                <div style="height: 450px; ">
-                                                                                <!-- fho series -->
-                                                                                <div id="div_fho_series" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                <!-- fho distr-->
-                                                                                <div id="div_fho_distr" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                </div>
-                                                                          
-                                                                                <div style="height: 450px; ">
-                                                                                  <!-- tumg series-->
-                                                                                  <div id="div_tumg_series" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                  <!-- tumg distr-->
-                                                                                  <div id="div_tumg_distr" style="width: 50%; height: 100%; float: left;"></div>
-                                                                                </div>`)
+                                                                                          <div style="height: 450px; ">
+                                                                                          <!-- fho series -->
+                                                                                          <div id="div_fho_series" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                          <!-- fho distr-->
+                                                                                          <div id="div_fho_distr" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                          </div>
+                                                                                    
+                                                                                          <div style="height: 450px; ">
+                                                                                            <!-- tumg series-->
+                                                                                            <div id="div_tumg_series" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                            <!-- tumg distr-->
+                                                                                            <div id="div_tumg_distr" style="width: 50%; height: 100%; float: left;"></div>
+                                                                                          </div>`)
 
         // var fileoptions = {{fileoption.requestedFiles|tojson}};
         // console.log(fileoptions);
@@ -44,7 +45,10 @@
         console.log(that.fileoptions_jsonOBJ)
 
         $('#selecte_file_message').dropdown({
-          values: that.fileoptions_jsonOBJ['value']
+          values: that.fileoptions_jsonOBJ['value'],
+          onChange: function(value, text, $selectedItem) {
+            that.submit()
+          }
         })
 
         $('#selecte_file_message').dropdown(

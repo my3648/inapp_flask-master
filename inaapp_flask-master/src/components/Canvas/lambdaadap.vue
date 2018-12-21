@@ -2,7 +2,6 @@
   <div id="plotBody"></div>
 </template>
 
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.10&key=146f38cff16fee22715f107edad81eac"></script>
 <script >
   export default {
     data() {
@@ -12,33 +11,37 @@
         fileoptions_jsonOBJ: []
       }
     },
-    props: ['startTime', 'endTime', 'slectedfiles', 'str_json'],
+    props: ['startTime', 'endTime', 'slectedfiles', 'str_json', 'CanvasType'],
     methods: {
       plot_d00_b02_lambdaadap() {
+        // this.CanvasType = 'lambdaadap'
         this.fileoptions_jsonOBJ = this.slectedfiles
         var that = this
         if ($('#selecte_file_message').dropdown('get value') != '') {
           that.submit()
         }
         $('#plotBody').html(`
-                                            <div style="height: 350px; ">
-                <!-- fra series -->
-                <div id="div_fra_series" style="width: 65%; height: 100%; float: left;"></div>
-                <!-- fra distr-->
-                <div id="div_fra_distr" style="width: 35%; height: 100%; float: left;"></div>
-              </div>
+                                                              <div style="height: 350px; ">
+                                  <!-- fra series -->
+                                  <div id="div_fra_series" style="width: 65%; height: 100%; float: left;"></div>
+                                  <!-- fra distr-->
+                                  <div id="div_fra_distr" style="width: 35%; height: 100%; float: left;"></div>
+                                </div>
 
-              <div style="height: 350px; ">
-                <!-- frm series-->
-                <div id="div_frm_series" style="width: 65%; height: 100%; float: left;"></div>
-                <!-- frm distr-->
-                <div id="div_frm_distr" style="width: 35%; height: 100%; float: left;"></div>
-              </div>
-                                            `)
+                                <div style="height: 350px; ">
+                                  <!-- frm series-->
+                                  <div id="div_frm_series" style="width: 65%; height: 100%; float: left;"></div>
+                                  <!-- frm distr-->
+                                  <div id="div_frm_distr" style="width: 35%; height: 100%; float: left;"></div>
+                                </div>
+                                                              `)
         console.log(that.fileoptions_jsonOBJ)
 
         $('#selecte_file_message').dropdown({
-          values: that.fileoptions_jsonOBJ['value']
+          values: that.fileoptions_jsonOBJ['value'],
+          onChange: function(value, text, $selectedItem) {
+            that.submit()
+          }
         })
 
         $('#selecte_file_message').dropdown(
@@ -62,8 +65,7 @@
             url:
               'http://139.224.5.105:30002/uaes-intelligent-calibration/v1/wc/hbase/selectHbase',
             data: {
-              fileName:
-                '6034_788-4415ET18-ECU DI 0_user-undefined_D-O2_ok test_iupr_00006034_2018-11-03_12-26-44_2018-11-03_12-40-58_sorted.dat',
+              fileName: $('#selecte_file_message').dropdown('get value'),
               type: 'd00_b02_lambdaadap'
             },
             dataType: 'json',
@@ -73,7 +75,7 @@
             success: function(data) {
               console.log(data)
               that.plotdata = JSON.parse(data['value'])
-              console.log(that.plotdata)
+
               setTimeout(function() {
                 var fra_series_chart = Highcharts.chart('div_fra_series', {
                   chart: {

@@ -192,11 +192,11 @@
               render: function(data, type, full, meta) {
                 return (
                   `<div class="ui checkbox">
-                                                                                                                                                                                                                                                                                                                                                        <input type="checkbox" class="selectedfiles" name="` +
+                                                                                                                                                                                                                                                                                                                                                              <input type="checkbox" class="selectedfiles" name="` +
                   data +
                   `">
-                                                                                                                                                                                                                                                                                                                                                        <label></label>
-                                                                                                                                                                                                                                                                                                                                                      </div>`
+                                                                                                                                                                                                                                                                                                                                                              <label></label>
+                                                                                                                                                                                                                                                                                                                                                            </div>`
                 )
               }
             },
@@ -214,8 +214,8 @@
               data: 'extra',
               render: function(data, type, full, meta) {
                 return `<button class="circular ui icon button">
-                                                                                                                                                                                                                                                                                                                                                                <i class="icon settings"></i>
-                                                                                                                                                                                                                                                                                                                                                              </button>`
+                                                                                                                                                                                                                                                                                                                                                                      <i class="icon settings"></i>
+                                                                                                                                                                                                                                                                                                                                                                    </button>`
               }
             }
           ]
@@ -564,6 +564,9 @@
     .masthead h2 {
       margin-top: 0.5em;
       font-size: 1.5em;
+    }
+    .paginate_button previous disabled {
+      border-radius: 1px solid #aaa;
     }
   }
 </style>

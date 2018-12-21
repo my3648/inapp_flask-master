@@ -14,30 +14,35 @@
         fileoptions_jsonOBJ: []
       }
     },
-    props: ['startTime', 'endTime', 'slectedfiles', 'str_json'],
+    props: ['startTime', 'endTime', 'slectedfiles', 'str_json', 'CanvasType'],
     methods: {
       plot_d00_b07_iumpr() {
+        // this.CanvasType = 'iumpr'
+
         this.fileoptions_jsonOBJ = this.slectedfiles
         var that = this
         if ($('#selecte_file_message').dropdown('get value') != '') {
           that.submit()
         }
         $('#plotBody').html(`
-                                      <div>
-                                  <div id="container" style="width: 50%; height: 600px; float: left;"></div>
-                                  <div style="width: 50%; height: 600px; margin-left:50%;">
-                                    <div id="detailContainer" style="height: 50%;"></div>
-                                    <div id="scatterContainer" style="height: 50%;"></div>
-                                  </div>
-                                </div>
+                                                      <div>
+                                                  <div id="container" style="width: 50%; height: 600px; float: left;"></div>
+                                                  <div style="width: 50%; height: 600px; margin-left:50%;">
+                                                    <div id="detailContainer" style="height: 50%;"></div>
+                                                    <div id="scatterContainer" style="height: 50%;"></div>
+                                                  </div>
+                                                </div>
 
-                                <div id="diumpr_ratio" style="width: 100%; height: 350px; "></div>
-                                <div id="diumpr_numerator" style="width: 100%; height: 350px; "></div>
-                                      `)
+                                                <div id="diumpr_ratio" style="width: 100%; height: 350px; "></div>
+                                                <div id="diumpr_numerator" style="width: 100%; height: 350px; "></div>
+                                                      `)
         console.log(that.fileoptions_jsonOBJ)
 
         $('#selecte_file_message').dropdown({
-          values: that.fileoptions_jsonOBJ['value']
+          values: that.fileoptions_jsonOBJ['value'],
+          onChange: function(value, text, $selectedItem) {
+            that.submit()
+          }
         })
 
         $('#selecte_file_message').dropdown(

@@ -185,11 +185,11 @@
                   <i class="bug icon"></i>
                 </button>
 
-                <button class="ui  facebook button" style="width: 60px;" data-tooltip="point to previous selected data source" data-position="top left">
+                <button class="ui  facebook button" style="width: 60px;" data-tooltip="point to previous selected data source" data-position="top left" @click="previous">
                   <i class="arrow alternate circle left outline icon"></i>
                 </button>
 
-                <button class="ui  facebook button" style="width: 60px;" data-tooltip="point to next selected data source" data-position="top left">
+                <button class="ui  facebook button" style="width: 60px;" data-tooltip="point to next selected data source" data-position="top left" @click="next">
                   <i class="arrow alternate circle right outline icon"></i>
                 </button>
               </div>
@@ -198,7 +198,7 @@
               <div style="float: left; margin-left: 10px; width: 450px;">
                 <form class="ui form">
                   <div class="field">
-                    <div class="ui selection dropdown" style="width: 450px;" id="selecte_file_message" name="selectedDropownfiles">
+                    <div class="ui selection dropdown" style="width: 450px;" id="selecte_file_message" ref="changesubmit" name="selectedDropownfiles">
                       <div class="text" ref="fileMessage"></div>
                       <i class="dropdown icon"></i>
                     </div>
@@ -295,11 +295,11 @@
           </div>
         </div>
 
-        <gpsroute ref="aaa" :slectedfiles="slectedfiles"></gpsroute>
-        <fho ref="fho" :slectedfiles="slectedfiles"></fho>
-        <epm ref="epm" :slectedfiles="slectedfiles"></epm>
-        <lambdaadap ref="lambdaadap" :slectedfiles="slectedfiles"></lambdaadap>
-        <iumpr ref="iumpr" :slectedfiles="slectedfiles"></iumpr>
+        <gpsroute ref="aaa" :slectedfiles="slectedfiles" :CanvasType="CanvasType"></gpsroute>
+        <fho ref="fho" :slectedfiles="slectedfiles" :CanvasType="CanvasType"></fho>
+        <epm ref="epm" :slectedfiles="slectedfiles" :CanvasType="CanvasType"></epm>
+        <lambdaadap ref="lambdaadap" :slectedfiles="slectedfiles" :CanvasType="CanvasType"></lambdaadap>
+        <iumpr ref="iumpr" :slectedfiles="slectedfiles" :CanvasType="CanvasType"></iumpr>
       </div>
     </div>
 
@@ -364,7 +364,8 @@
         startTime: '',
         endTime: '',
         slectedfiles: [],
-        str_json: ''
+        str_json: '',
+        CanvasType: ''
       }
     },
     components: {
@@ -444,11 +445,11 @@
             render: function(data, type, full, meta) {
               return (
                 `<div class="ui checkbox">
-                                                                                                                                                                                                                                                                                <input type="checkbox" class="selectedfiles"  name="` +
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="checkbox" class="selectedfiles"  name="` +
                 data +
                 `">
-                                                                                                                                                                                                                                                                                <label></label>
-                                                                                                                                                                                                                                                                              </div>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label></label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </div>`
               )
             }
           },
@@ -474,20 +475,86 @@
 
     //
     methods: {
-      // previous(){
-      //   var that=this;
-      //       $('#selecte_file_message').dropdown(
-      //     'set selected',
-      //     that.slectedfiles[0].value
-      //   )
+      next() {
+        var that = this
+        // console.log($('#selecte_file_message').dropdown('get value'))
+        var val = $('#selecte_file_message').dropdown('get value')
+        // console.log(that.slectedfiles)
+        var j
+        for (var i = 0; i < that.slectedfiles.length; i++) {
+          if (that.slectedfiles[i].value === val) {
+            j = i
+          }
+        }
+        if (j < that.slectedfiles.length - 1) {
+          j++
+        } else {
+          j = 0
+        }
+        $('#selecte_file_message').dropdown(
+          'set selected',
+          that.slectedfiles[j].value
+        )
+      },
+      previous() {
+        var that = this
+        // console.log($('#selecte_file_message').dropdown('get value'))
+        var val = $('#selecte_file_message').dropdown('get value')
+        // console.log(that.slectedfiles)
+        var j
+        for (var i = 0; i < that.slectedfiles.length; i++) {
+          if (that.slectedfiles[i].value === val) {
+            j = i
+          }
+        }
+        if (j > 0) {
+          j--
+        } else {
+          j = that.slectedfiles.length - 1
+        }
+        $('#selecte_file_message').dropdown(
+          'set selected',
+          that.slectedfiles[j].value
+        )
+      },
 
-      // },
       submitData() {
-        this.$refs.aaa.submit()
-        this.$refs.fho.submit()
-        this.$refs.epm.submit()
-        this.$refs.lambdaadap.submit()
-        this.$refs.iumpr.submit()
+        if (this.CanvasType === 'gpsroute') {
+          this.$refs.aaa.submit()
+        }
+        if (this.CanvasType === 'fho') {
+          this.$refs.fho.submit()
+        }
+        if (this.CanvasType === 'epm') {
+          this.$refs.epm.submit()
+        }
+        if (this.CanvasType === 'lambdaadap') {
+          this.$refs.lambdaadap.submit()
+        }
+        if (this.CanvasType === 'iumpr') {
+          this.$refs.iumpr.submit()
+        }
+
+        // if (this.$refs.aaa.fileoptions_jsonOBJ != []) {
+        //   this.$refs.aaa.submit()
+        // }
+        // if (this.$refs.fho.fileoptions_jsonOBJ != []) {
+        //   this.$refs.fho.submit()
+        // }
+        // if (this.$refs.epm.fileoptions_jsonOBJ != []) {
+        //   this.$refs.epm.submit()
+        // }
+        // if (this.$refs.lambdaadap.fileoptions_jsonOBJ != []) {
+        //   this.$refs.lambdaadap.submit()
+        // }
+        // if (this.$refs.iumpr.fileoptions_jsonOBJ != []) {
+        //   this.$refs.iumpr.submit()
+        // }
+
+        // this.$refs.fho.submit()
+        // this.$refs.epm.submit()
+        // this.$refs.lambdaadap.submit()
+        // this.$refs.iumpr.submit()
       },
       login() {
         this.$router.push('/login')
@@ -670,35 +737,54 @@
           }
         })
         $('#selecte_file_message').dropdown({
-          values: that.slectedfiles
+          values: that.slectedfiles,
+          onChange: function(value, text, $selectedItem) {
+            that.submitData()
+          }
         })
-        console.log()
+
         $('#selecte_file_message').dropdown(
           'set selected',
           that.slectedfiles[0].value
         )
-        // if ($('#selecte_file_message').dropdown('get value') != '') {
-        //   this.$refs.aaa.submit()
-        //   this.$refs.fho.submit()
-        //   this.$refs.epm.submit()
-        //   this.$refs.lambdaadap.submit()
-        //   this.$refs.iumpr.submit()
-        // }
+
+        if ($('#selecte_file_message').dropdown('get value') != '') {
+          if (this.CanvasType === 'gpsroute') {
+            this.$refs.aaa.plot_d00_a01_gps()
+          }
+          if (this.CanvasType === 'fho') {
+            this.$refs.fho.plot_d00_a02_fho()
+          }
+          if (this.CanvasType === 'epm') {
+            this.$refs.epm.plot_d00_b01_epm()
+          }
+          if (this.CanvasType === 'lambdaadap') {
+            this.$refs.lambdaadap.plot_d00_b02_lambdaadap()
+          }
+          if (this.CanvasType === 'iumpr') {
+            this.$refs.iumpr.plot_d00_b07_iumpr()
+          }
+        }
       },
       //
       plot_d00_a01_gps_dir_click() {
+        this.CanvasType = 'gpsroute'
         this.$refs.aaa.plot_d00_a01_gps()
       },
       plot_d00_a02_fho_dir_click() {
+        this.CanvasType = 'fho'
         this.$refs.fho.plot_d00_a02_fho()
       },
       plot_d00_b01_epm_dir_click() {
+        this.CanvasType = 'epm'
         this.$refs.epm.plot_d00_b01_epm()
       },
       plot_d00_b02_lambdaadap_dir_click() {
+        this.CanvasType = 'lambdaadap'
         this.$refs.lambdaadap.plot_d00_b02_lambdaadap()
       },
       plot_d00_b07_iumpr_dir_click() {
+        this.CanvasType = 'iumpr'
         this.$refs.iumpr.plot_d00_b07_iumpr()
       }
       //地图
@@ -780,6 +866,14 @@
 
   .footer.segment {
     padding: 5em 0em;
+  }
+  .field .text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+
+    width: 100%;
   }
 
   .secondary.pointing.menu .toc.item {

@@ -51,7 +51,7 @@
               <p>You might thought it was the stuff of dreams, but exhaustive test and analytics can be intelligently re-engineered.</p>
             </div>
             <div class="six wide right floated column">
-              <img src="../../assets/big-data-circle.jpg" class="ui large bordered rounded image">
+              <img src="/static/big-data-circle.jpg" class="ui large bordered rounded image">
             </div>
           </div>
           <div class="row">
@@ -186,7 +186,7 @@
 
   .masthead.segment {
     min-height: 800px;
-    /* padding: 0em 0em; */
+    padding: 0em 0em;
   }
 
   .masthead .logo.item img {
